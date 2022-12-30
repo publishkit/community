@@ -1,0 +1,12 @@
+{
+  "name": "community",
+  "version": "0.0.9",
+  "description": "Community Garden",
+  "main": "index.js",
+  "repository": "git@github.com:publishkit/community.git",
+  "author": "louis <louis.grellet@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npx serve@14.1.2 --cors -l 1340"
+  }
+}
