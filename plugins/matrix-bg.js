@@ -1,30 +1,38 @@
-return class Plugin {
-  constructor(app, options) {
-    this.id = "matrix-bg";
-    this.app = app;
+return class Plugin extends BasePlugin {
+  constructor(id, options) {
+    super(id, options);
     this.options = {
       fontsize: 10,
-      rate: 500,
-      ...options,
+      rate: 35,
+      ...this.options,
     };
   }
 
-  code = async () => {
-    // append canvas
-    $("body").prepend(
-      '<canvas id="matrix-bg" style="position: absolute; z-index: -1;"></canvas>'
-    );
-
-    // start matrix
-    setTimeout(this.matrix, this.options.rate);
+  render = async () => {
+    // add canvas to body
+    this.ui.addElement("body", "main", `<canvas></canvas>`);
   };
 
+  bind = async () => {
+    // start matrix
+    this.matrix();
+  };
+
+  style = async () => `
+    [id="body.matrix-bg.main"] canvas {
+      position: absolute; 
+      z-index: -1;
+    }
+  `;
+
   matrix = () => {
-    var c = document.getElementById("matrix-bg");
+    const { ui, utils, options } = this;
+
+    var c = ui.getElement("body", "main").el.find("canvas").get(0);
     var ctx = c.getContext("2d");
 
     //making the canvas full screen
-    c.height = this.app.utils.w.pageHeight();
+    c.height = utils.w.pageHeight();
     c.width = window.innerWidth;
 
     //chinese characters - taken from the unicode charset
@@ -32,7 +40,7 @@ return class Plugin {
     //converting the string into an array of single characters
     matrix = matrix.split("");
 
-    var fontsize = this.options.fontsize || 10;
+    var fontsize = options.fontsize || 10;
     var columns = c.width / fontsize; //number of columns for the rain
     //an array of drops - one per column
     var drops = [];
@@ -44,7 +52,7 @@ return class Plugin {
     function draw() {
       //Black BG for the canvas
       //translucent BG to show trail
-      ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.03)";
       ctx.fillRect(0, 0, c.width, c.height);
 
       ctx.fillStyle = "#0F0"; //green text
@@ -66,6 +74,6 @@ return class Plugin {
       }
     }
 
-    setInterval(draw, 35);
+    setInterval(draw, options.rate);
   };
 };
