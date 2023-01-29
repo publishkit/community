@@ -53,10 +53,10 @@ return class Theme extends BaseTheme {
   style = async () => {
     const { options } = this;
     const css = `
-            :root {
-                --font-family: ${options.font}, sans-serif;
-                --headings-font-family: ${options.headings?.font}, sans-serif;
-            }`;
+          :root {
+              --font-family: ${options.font}, sans-serif;
+              --headings-font-family: ${options.headings?.font}, sans-serif;
+          }`;
 
     return css;
   };

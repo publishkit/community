@@ -1,34 +1,35 @@
-return class Plugin extends BasePlugin {
+return class Theme extends BaseTheme {
   constructor(id, options) {
     super(id, options);
-    this.options = {
-      fontsize: 10,
-      rate: 35,
-      ...this.options,
-    };
+    this.options = this.utils.o.merge(
+      {
+        mode: "#0F0", // alias on pill & color
+        speed: 35,
+        fontsize: 10,
+      },
+      this.options
+    );
   }
 
   render = async () => {
-    // add canvas to body
-    this.ui.addElement("body", "main", `<canvas></canvas>`);
+    this.ui.addElement("body", "canvas", `<canvas></canvas>`);
   };
 
   bind = async () => {
-    // start matrix
     this.matrix();
   };
 
   style = async () => `
-    [id="body.matrix-bg.main"] canvas {
-      position: absolute; 
-      z-index: -1;
-    }
+      [id="body.matrix-bg.canvas"] canvas {
+          position: absolute; 
+          z-index: -1;
+      }
   `;
 
   matrix = () => {
     const { ui, utils, options } = this;
 
-    var c = ui.getElement("body", "main").el.find("canvas").get(0);
+    var c = ui.getElement("body", "canvas").el.find("canvas").get(0);
     var ctx = c.getContext("2d");
 
     //making the canvas full screen
@@ -55,7 +56,7 @@ return class Plugin extends BasePlugin {
       ctx.fillStyle = "rgba(0, 0, 0, 0.03)";
       ctx.fillRect(0, 0, c.width, c.height);
 
-      ctx.fillStyle = "#0F0"; //green text
+      ctx.fillStyle = options.pill || options.color || options.mode; //green text
       ctx.font = fontsize + "px arial";
       //looping over drops
       for (var i = 0; i < drops.length; i++) {
@@ -74,6 +75,6 @@ return class Plugin extends BasePlugin {
       }
     }
 
-    setInterval(draw, options.rate);
+    setInterval(draw, options.speed);
   };
 };
