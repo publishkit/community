@@ -100,6 +100,7 @@ return class Theme extends BaseTheme {
         --border-radius: 0;
         --dropdown-hover-background-color: var(--primary);
         --dropdown-hover-color: #000;
+        --mark-color: #000;
 
         [role="document"], .left-bar, .right-bar {
           background: var(--card-background-color);
