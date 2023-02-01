@@ -3,7 +3,7 @@ return class Theme extends BaseTheme {
     super(id, options);
     this.options = this.utils.o.merge(
       {
-        mode: "#0F0", // alias on pill & color
+        pill: "#0F0",
         speed: 35,
         fontsize: 10,
       },
@@ -56,7 +56,7 @@ return class Theme extends BaseTheme {
       ctx.fillStyle = "rgba(0, 0, 0, 0.03)";
       ctx.fillRect(0, 0, c.width, c.height);
 
-      ctx.fillStyle = options.pill || options.color || options.mode; //green text
+      ctx.fillStyle = options.pill; //green text
       ctx.font = fontsize + "px arial";
       //looping over drops
       for (var i = 0; i < drops.length; i++) {
