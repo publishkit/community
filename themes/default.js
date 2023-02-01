@@ -70,6 +70,11 @@ return class Theme extends BaseTheme {
             : ""
         }
 
+        ${
+          (options.highlight && `--highlight-background-color: var(--bg);`) ||
+          ""
+        }
+
         .left-bar {
           background: var(--card-background-color);
         }
