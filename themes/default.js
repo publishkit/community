@@ -8,7 +8,7 @@ return class Theme extends BaseTheme {
 
     this.setup();
   }
-  
+
   style = this.theme.render;
 
   allMode = ({ options }) => `

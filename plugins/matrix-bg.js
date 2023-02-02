@@ -1,14 +1,11 @@
-return class Theme extends BaseTheme {
+return class Plugin extends BasePlugin {
   constructor(id, options) {
     super(id, options);
-    this.options = this.utils.o.merge(
-      {
-        pill: "#0F0",
-        speed: 35,
-        fontsize: 10,
-      },
-      this.options
-    );
+    this.defaults({
+      pill: "#0F0",
+      speed: 35,
+      fontsize: 10,
+    });
   }
 
   render = async () => {
