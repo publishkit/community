@@ -1,19 +1,20 @@
 return class Theme extends BaseTheme {
   constructor(id, options) {
-    super(id, options);
-    this.defaults({
-      highlight: "an-old-hope",
+    super(id, options, {
+      highlight: "nord",
       font: "Marcher",
     });
-
-    this.setup();
   }
 
-  style = this.theme.render;
+  style = async () => {
+    const { modes } = this;
 
-  allMode = ({ options }) => `
-    .left-bar {
-        background: var(--card-background-color);
-    }
-  `;
+    modes.css("all", `
+      .ui-left {
+          background: var(--card-background-color);
+      }
+    `);
+
+    return modes.render();
+  };
 };

@@ -1,20 +1,20 @@
 return class Plugin extends BasePlugin {
   constructor(id, options) {
-    super(id, options);
-    this.defaults({
+    super(id, options, {
       id: "", // google tracking id
-      //pageview: false
+      events: [], // trigger extra events on load (ex: page_view)
+      localhost: false // include script on localhost
     });
   }
 
   init = async () => {
     const { options, utils } = this;
     const byPassLocahost = utils.w.isLocalhost() ? options.localhost : true;
-    return !!(byPassLocahost && this.options.id);
+    return !!(byPassLocahost && options.id);
   };
 
   bind = async () => {
-    const { id } = this.options;
+    const { options, utils } = this;
 
     window.dataLayer = window.dataLayer || [];
     function gtag() {
@@ -23,12 +23,12 @@ return class Plugin extends BasePlugin {
     // @ts-ignore
     gtag("js", new Date());
     // @ts-ignore
-    gtag("config", id);
+    gtag("config", options.id);
 
-    if (this.options.pageview) gtag("event", "page_view");
+    // trigger events
+    options.events.map((event) => gtag("event", event));
 
-    this.utils.dom.load(
-      `https://www.googletagmanager.com/gtag/js?id=${id}`
-    );
+    // load gtag lib
+    utils.dom.load(`https://www.googletagmanager.com/gtag/js?id=${options.id}`);
   };
 };

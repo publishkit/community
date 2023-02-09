@@ -1,7 +1,6 @@
 return class Plugin extends BasePlugin {
   constructor(id, options) {
-    super(id, options);
-    this.defaults({
+    super(id, options, {
       pill: "#0F0",
       speed: 35,
       fontsize: 10,
@@ -9,7 +8,7 @@ return class Plugin extends BasePlugin {
   }
 
   render = async () => {
-    this.ui.addElement("body", "canvas", `<canvas></canvas>`);
+    this.ui.addElement("canvas", "body",`<canvas></canvas>`);
   };
 
   bind = async () => {
@@ -17,16 +16,16 @@ return class Plugin extends BasePlugin {
   };
 
   style = async () => `
-      [id="body.matrix-bg.canvas"] canvas {
-          position: absolute; 
-          z-index: -1;
-      }
+    [id="matrix-bg.canvas"] {
+      position: absolute; 
+      z-index: -1;
+    }
   `;
 
   matrix = () => {
     const { ui, utils, options } = this;
 
-    var c = ui.getElement("body", "canvas").el.find("canvas").get(0);
+    var c = ui.get("canvas").el.get(0);
     var ctx = c.getContext("2d");
 
     //making the canvas full screen

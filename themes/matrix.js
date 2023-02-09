@@ -1,68 +1,69 @@
 return class Theme extends BaseTheme {
   constructor(id, options) {
-    super(id, options);
-    this.defaults({
-      primary: "#0F0",
+    super(id, options, {
+      bg: "#000",
+      color: options.primary || "#0F0",
+      primary: options.primary || "#0F0",
       animate: 35,
       font: "monospace",
       headings: {
-        font: "Gosper",
+        font: "Karmatic Arcade",
       },
     });
-
-    this.setup();
   }
-
-  style = this.theme.render;
 
   render = async () => {
     // add canvas to body
     if (this.options.animate)
-      this.ui.addElement("body", "canvas", `<canvas></canvas>`);
+      this.ui.addElement("canvas", "body", `<canvas></canvas>`);
   };
 
   bind = async () => {
     if (this.options.animate) this.matrix();
   };
 
-  allMode = ({ options }) => `
-    --bg: #000;
-    --fs: 1rem;
-    --color: var(--primary);
-    --secondary: hsl(var(--primary-hue) 100% 60% / .3);
-    --secondary-hover: hsl(var(--primary-hue) 100% 60% / .6);
-    --card-background-color: hsl(var(--color-hue) 0% 0% / 0.8);
-    --dropdown-hover-background-color: var(--primary);
-    --dropdown-hover-color: #000;
-    --border-radius: 0;
-    --mark-color: #000;
+  style = async () => {
+    const { modes } = this;
 
-    [role="document"], .left-bar, .right-bar {
-        background: var(--card-background-color);
-    }
+    modes.css("all", `
+      --bg-opacity: hsl(var(--bg-hsl) / .8);
+      --secondary: hsl(var(--primary-hue) 100% 60% / .6);
+      --secondary-hover: hsl(var(--primary-hue) 100% 60% / .8);
+      --muted-color: hsl(var(--color-hsl) / 0.9);
+      --muted-border-color: hsl(var(--color-hsl) / 0.6);
+      --contrast: var(--muted-color);
+      --form-element-border-color: hsl(var(--color-hsl) / 0.6);
+      --card-background-color: hsl(var(--color-hue) 0% 0% / 0.8);
+      --card-sectionning-background-color: hsl(var(--primary-hsl) / 0.3);
+      --card-sectionning-color: #fff;
+      --dropdown-hover-background-color: var(--primary);
+      --dropdown-hover-color: #000;
+      --border-radius: 0;
+      --mark-color: #000;
 
-    @media (min-width: 576px) {
-        [role="document"] {
-            margin-top: 20px;
-        }
-    }
+      ::selection {
+        color: var(--bg);
+      }
 
-    [id="body.theme.canvas"] canvas {
+      [id="theme.canvas"] {
         position: absolute; 
         z-index: -1;
-    }
-  `;
+      }
+    `);
+
+    return modes.render();
+  };
 
   // this function is credited to some dude on reddit, it has been forked many times so can trace oriagnal. nice work !
   matrix = () => {
     const { ui, utils, options } = this;
 
-    var c = ui.getElement("body", "canvas").el.find("canvas").get(0);
+    var c = ui.get("canvas").el.get(0);
     var ctx = c.getContext("2d");
 
     //making the canvas full screen
     c.height = utils.w.pageHeight();
-    c.width = window.innerWidth;
+    c.width = window.innerWidth - 15;
 
     //chinese characters - taken from the unicode charset
     var matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
