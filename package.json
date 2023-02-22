@@ -1,6 +1,6 @@
 {
   "name": "community",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Community Garden",
   "main": "index.js",
   "repository": "git@github.com:publishkit/community.git",
