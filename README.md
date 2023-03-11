@@ -1,6 +1,8 @@
+![kit](https://publishkit.dev/attachements/logo/logo-sm.png)
+
 # Community plugins & themes
 
-Use any of the plugins by refencing them in your `kitrc`:
+Use any of the plugins by refencing them in your `kitrc` or notes:
 
 ```
 plugins:
