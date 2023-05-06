@@ -11,7 +11,6 @@ return class FancyBoxPlugin extends BasePlugin {
 
   transform = async () => {
     const { $dom } = window;
-    const { log } = this
     // this plugin only transforms images in the content area
     const images = $dom.body.find(".ui-content img");
 
